@@ -23,8 +23,8 @@ class Film(models.Model):
         on_delete=models.CASCADE,
         related_name='platform_films'
     )
-    # avg_rating = models.FloatField(default=0)
-    # number_rating = models.IntegerField(default=0)
+    avg_rating = models.FloatField(default=0, )
+    number_rating = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
