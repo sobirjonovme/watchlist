@@ -23,8 +23,8 @@ def review_create(sender, instance, **kwargs):
 
 
 @receiver(pre_delete, sender=Review)
-def review_delete(sender, instanse, **kwargs):
-    film = instanse.film
-    film.avg_rating = (film.avg_rating*film.number_rating - instanse.rating) / (film.number_rating-1)
+def review_delete(sender, instance, **kwargs):
+    film = instance.film
+    film.avg_rating = (film.avg_rating*film.number_rating - instance.rating) / (film.number_rating-1)
     film.number_rating -= 1
     film.save()
