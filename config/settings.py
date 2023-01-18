@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # installed apps
     'rest_framework',
+    'rest_framework.authtoken',
 
     # local apps
     'users',
@@ -132,3 +133,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Django'ga o'zimiz yaratgan CustomUser modelidan foydalanishini aytamiz
 AUTH_USER_MODEL = 'users.CustomUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
