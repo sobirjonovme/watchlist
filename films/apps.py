@@ -7,4 +7,4 @@ class FilmsConfig(AppConfig):
 
     def ready(self):
         # Implicitly connect signal handlers decorated with @receiver.
-        from . import signals
+        from films import signals
