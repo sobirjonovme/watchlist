@@ -7,3 +7,5 @@ from users.models import CustomUser
 class RegistrationAPIView(CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = RegistrationSerializer
+
+

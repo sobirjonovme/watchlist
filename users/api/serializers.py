@@ -25,7 +25,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         # To check passwords matching
         if data['password'] != data['password2']:
             raise ValidationError({'error': 'Passwords should be the same!'})
-        print(data)
+
         # to check if a user does not already exist with this email
         email = data.get('email')
         if email is not None and CustomUser.objects.filter(email=email).exists():
@@ -43,3 +43,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.save()
 
         return account
+
+    def to_representation(self, instance):
+        """Convert `username` to lowercase."""
+        data = super().to_representation(instance)
+        data.update(instance.get_tokens())
+        return data
