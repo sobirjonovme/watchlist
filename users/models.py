@@ -8,9 +8,11 @@ from rest_framework.authtoken.models import Token
 class CustomUser(AbstractUser):
 
     def get_tokens(self):
-        token = Token.objects.get_or_create(user=self)
+        token, created = Token.objects.get_or_create(user=self)
+        # token = Token.objects.get(user=self)
+
         data = {
-            'token': token
+            'token': token.key,
         }
 
-        return token
+        return data

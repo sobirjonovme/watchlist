@@ -18,7 +18,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'password2')
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {
+                'write_only': True,
+                'style': {"input_type": "password"},
+            }
         }
 
     def validate(self, data):
@@ -28,7 +31,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         # to check if a user does not already exist with this email
         email = data.get('email')
-        if email is not None and CustomUser.objects.filter(email=email).exists():
+        print(data)
+        print(f'email:{email}!')
+        if email and CustomUser.objects.filter(email=email).exists():
+            print("\n\n123\n\n")
             raise ValidationError({'email': 'The user already registered with this email!'})
 
         return data
@@ -41,11 +47,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account = CustomUser(**data)
         account.set_password(password)
         account.save()
+        self.instance = account
 
-        return account
+        return self.instance
 
     def to_representation(self, instance):
-        """Convert `username` to lowercase."""
+        print(instance)
         data = super().to_representation(instance)
+        print(data)
         data.update(instance.get_tokens())
         return data
