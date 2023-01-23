@@ -13,7 +13,7 @@ from .serializers import (
     FilmDetailSerializer,
     ReviewSerializer,
 )
-from .permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly
+from .permissions import IsOwnerOrIsAdminOrReadOnly, IsAdminOrReadOnly
 
 
 # =============   STREAM PLATFORM API VIEWs   ========================
@@ -73,4 +73,4 @@ class ReviewDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrIsAdminOrReadOnly]
