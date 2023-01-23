@@ -137,14 +137,21 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.TokenAuthentication',  # For Token Authentication
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # For JWT Authentication
-    ]
+        'rest_framework.authentication.TokenAuthentication',  # For Token Authentication
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',  # For JWT Authentication
+    ],
+
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '3/day',
+        # 'user': '1000/day',
+        'get-user-rate': '10/day',
+        'post-review': '1/hour',
+    }
 }
 
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
-    'ROTATE_REFRESH_TOKENS': True,
-}
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
+#     'ROTATE_REFRESH_TOKENS': True,
+# }

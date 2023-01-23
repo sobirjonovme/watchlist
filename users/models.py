@@ -9,18 +9,18 @@ from rest_framework_simplejwt.tokens import RefreshToken  # For JWT Authenticati
 class CustomUser(AbstractUser):
 
     def get_tokens(self):
-        # # ===============   For Token Authentication   ============
-        # token, created = Token.objects.get_or_create(user=self)
-        # # token = Token.objects.get(user=self)
-        # data = {
-        #     'token': token.key,
-        # }
-
-        # ===============   For JWT Authentication   ============
-        refresh = RefreshToken.for_user(self)
+        # ===============   For Token Authentication   ============
+        token, created = Token.objects.get_or_create(user=self)
+        # token = Token.objects.get(user=self)
         data = {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
+            'token': token.key,
         }
+
+        # # ===============   For JWT Authentication   ============
+        # refresh = RefreshToken.for_user(self)
+        # data = {
+        #     'refresh': str(refresh),
+        #     'access': str(refresh.access_token),
+        # }
 
         return data

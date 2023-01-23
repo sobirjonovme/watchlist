@@ -4,16 +4,18 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import ValidationError
+from rest_framework.throttling import AnonRateThrottle
 
 from films.models import StreamPlatform, Film, Review
-from .serializers import (
+from films.api.serializers import (
     StreamPlatformSerializer,
     StreamPlatformDetailSerializer,
     FilmSerializer,
     FilmDetailSerializer,
     ReviewSerializer,
 )
-from .permissions import IsOwnerOrIsAdminOrReadOnly, IsAdminOrReadOnly
+from films.api.permissions import IsOwnerOrIsAdminOrReadOnly, IsAdminOrReadOnly
+from films.api.throttling import GetUserRateThrottle, PostReviewThrottle
 
 
 # =============   STREAM PLATFORM API VIEWs   ========================
@@ -22,6 +24,7 @@ class StreamPlatformListAPIView(ListCreateAPIView):
     serializer_class = StreamPlatformSerializer
 
     permission_classes = [IsAdminOrReadOnly]
+    throttle_classes = [AnonRateThrottle, GetUserRateThrottle]
 
 
 class StreamPlatformDetailAPIView(RetrieveUpdateDestroyAPIView):
@@ -29,6 +32,7 @@ class StreamPlatformDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = StreamPlatformDetailSerializer
 
     permission_classes = [IsAdminOrReadOnly]
+    throttle_classes = [AnonRateThrottle, GetUserRateThrottle]
 
 
 # =============   FILM API VIEWs   ========================
@@ -37,6 +41,7 @@ class FilmListAPIView(ListCreateAPIView):
     serializer_class = FilmSerializer
 
     permission_classes = [IsAdminOrReadOnly]
+    throttle_classes = [AnonRateThrottle, GetUserRateThrottle]
 
 
 class FilmDetailAPIView(RetrieveUpdateDestroyAPIView):
@@ -44,6 +49,7 @@ class FilmDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = FilmDetailSerializer
 
     permission_classes = [IsAdminOrReadOnly]
+    throttle_classes = [AnonRateThrottle, GetUserRateThrottle]
 
 
 # =============   REVIEW API VIEWs   ========================
@@ -51,6 +57,7 @@ class ReviewListAPIView(ListCreateAPIView):
     serializer_class = ReviewSerializer
 
     permission_classes = [IsAuthenticatedOrReadOnly]
+    throttle_classes = [AnonRateThrottle, GetUserRateThrottle, PostReviewThrottle]
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
@@ -61,10 +68,10 @@ class ReviewListAPIView(ListCreateAPIView):
         film = Film.objects.get(pk=pk)
 
         review_user = self.request.user
-        if Review.objects.filter(film=film, review_author=review_user).exists():
-            raise ValidationError({
-                'error': 'You already left a review. One user can write only one review'
-            })
+        # if Review.objects.filter(film=film, review_author=review_user).exists():
+        #     raise ValidationError({
+        #         'error': 'You already left a review. One user can write only one review'
+        #     })
 
         serializer.save(film=film, review_author=review_user)
 
@@ -74,3 +81,4 @@ class ReviewDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = ReviewSerializer
 
     permission_classes = [IsOwnerOrIsAdminOrReadOnly]
+    throttle_classes = [AnonRateThrottle, GetUserRateThrottle]
