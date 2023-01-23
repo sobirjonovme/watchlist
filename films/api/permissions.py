@@ -14,7 +14,7 @@ class IsOwnerOrIsAdminOrReadOnly(permissions.BasePermission):
             return True
 
         # Instance must have an attribute named `review_author`.
-        return bool(request.user or (request.user.is_staff and obj.review_author == request.user))
+        return bool(request.user and (request.user.is_staff or obj.review_author == request.user))
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):

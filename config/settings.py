@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,9 +40,10 @@ INSTALLED_APPS = [
 
     # installed apps
     'rest_framework',
-    'rest_framework.authtoken',
+    'rest_framework.authtoken',  # For Token Authentication
+    'rest_framework_simplejwt',  # For JWT Authentication
 
-    # local apps
+    # created apps
     'users',
     'films',
 ]
@@ -136,6 +137,14 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',  # For Token Authentication
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # For JWT Authentication
     ]
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
+    'ROTATE_REFRESH_TOKENS': True,
 }

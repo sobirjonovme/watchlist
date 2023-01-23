@@ -8,7 +8,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'is_active', 'password', 'password2')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'is_active')
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -31,10 +31,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         # to check if a user does not already exist with this email
         email = data.get('email')
-        print(data)
-        print(f'email:{email}!')
+        # print(data)
+        # print(f'email:{email}!')
         if email and CustomUser.objects.filter(email=email).exists():
-            print("\n\n123\n\n")
+            # print("\n\n123\n\n")
             raise ValidationError({'email': 'The user already registered with this email!'})
 
         return data
@@ -52,8 +52,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return self.instance
 
     def to_representation(self, instance):
-        print(instance)
+        # print(instance)
         data = super().to_representation(instance)
-        print(data)
+        # print(data)
         data.update(instance.get_tokens())
         return data
