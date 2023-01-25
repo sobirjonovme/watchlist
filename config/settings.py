@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # installed apps
     'rest_framework',
     'rest_framework.authtoken',  # For Token Authentication
-    'rest_framework_simplejwt',  # For JWT Authentication
+    # 'rest_framework_simplejwt',  # For JWT Authentication
+    'drf_yasg',
 
     # created apps
     'users',
