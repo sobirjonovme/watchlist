@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from datetime import timedelta
 from pathlib import Path
 from environs import Env
@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',  # For Token Authentication
     # 'rest_framework_simplejwt',  # For JWT Authentication
-    'drf_yasg',
+    'drf_yasg',  # for swagger
+    'whitenoise.runserver_nostatic',  # for White Noise
 
     # created apps
     'users',
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # for White Noise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -138,9 +140,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# =======================   MY ADDITIONS   ===========================
 
 # Django'ga o'zimiz yaratgan CustomUser modelidan foydalanishini aytamiz
 AUTH_USER_MODEL = 'users.CustomUser'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # NOT WORK for some reasons
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'  # WORKS WELL
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
