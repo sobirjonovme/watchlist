@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # installed apps
     'rest_framework',
+    'django_filters',
     'rest_framework.authtoken',  # For Token Authentication
     # 'rest_framework_simplejwt',  # For JWT Authentication
     'drf_yasg',  # for swagger

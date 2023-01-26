@@ -5,6 +5,8 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import ValidationError
 from rest_framework.throttling import AnonRateThrottle
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from films.models import StreamPlatform, Film, Review
 from films.api.serializers import (
@@ -41,7 +43,15 @@ class FilmListAPIView(ListCreateAPIView):
     serializer_class = FilmSerializer
 
     permission_classes = [IsAdminOrReadOnly]
-    throttle_classes = [AnonRateThrottle, GetUserRateThrottle]
+    # throttle_classes = [AnonRateThrottle, GetUserRateThrottle]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    ordering_fields = ['title', 'avg_rating', 'created_at']
+    search_fields = ['title', ]
+    filterset_fields = {
+        'active': ['exact'],
+        'platform__name': ['exact'],
+        'avg_rating': ['lte', 'gte'],
+    }
 
 
 class FilmDetailAPIView(RetrieveUpdateDestroyAPIView):
@@ -58,6 +68,9 @@ class ReviewListAPIView(ListCreateAPIView):
 
     permission_classes = [IsAuthenticatedOrReadOnly]
     throttle_classes = [AnonRateThrottle, GetUserRateThrottle, PostReviewThrottle]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    ordering_fields = ['rating', 'created_at']
+    search_fields = ['review_author__username', 'review_text']
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
