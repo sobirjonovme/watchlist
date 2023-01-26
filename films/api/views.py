@@ -18,6 +18,7 @@ from films.api.serializers import (
 )
 from films.api.permissions import IsOwnerOrIsAdminOrReadOnly, IsAdminOrReadOnly
 from films.api.throttling import GetUserRateThrottle, PostReviewThrottle
+from films.api.pagination import FilmPagination
 
 
 # =============   STREAM PLATFORM API VIEWs   ========================
@@ -39,9 +40,10 @@ class StreamPlatformDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 # =============   FILM API VIEWs   ========================
 class FilmListAPIView(ListCreateAPIView):
-    queryset = Film.objects.all()
+    queryset = Film.objects.all().order_by('-id')
     serializer_class = FilmSerializer
 
+    pagination_class = FilmPagination
     permission_classes = [IsAdminOrReadOnly]
     # throttle_classes = [AnonRateThrottle, GetUserRateThrottle]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
