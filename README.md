@@ -1,4 +1,4 @@
-# Watchlist Repository
+# Watchlist
 
 A REST API for a movie-watching platform inspired by IMDB.
 
