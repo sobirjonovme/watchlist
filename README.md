@@ -1,6 +1,6 @@
 # Watchlist
 
-A REST API for a movie-watching platform inspired by IMDB.
+A REST API for a movie-watching platform inspired by IMDB.<br>
 Link for Live Demo: [WatchList](https://watchlistapi.pythonanywhere.com/)
 
 ## Introduction
