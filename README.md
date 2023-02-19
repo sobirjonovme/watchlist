@@ -1,6 +1,7 @@
 # Watchlist
 
 A REST API for a movie-watching platform inspired by IMDB.
+Link for Live Demo: [WatchList](https://watchlistapi.pythonanywhere.com/)
 
 ## Introduction
 The `watchlist` repository is a REST API platform for movie enthusiasts to come together and share their thoughts and opinions on a wide range of movies. The platform allows administrators to add movies to the site, while registered users can leave reviews for these movies and rank them on a scale from 1 to 5. The overall movie rating is calculated and displayed on each movie's detail page. Token authentication is used for user authentication, ensuring user security.
